@@ -1,6 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
+//controlador que gestiona las plantillas de la aplicaciòn
 class Welcome extends CI_Controller {
 
 	function __construct()
