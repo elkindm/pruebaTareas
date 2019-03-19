@@ -12,7 +12,9 @@ class Welcome extends CI_Controller {
 	{
 		/*$dt['bodega']= $this->modelos->BuscarBodega();
 		$dt['estado']= $this->modelos->BuscarEstado();*/
-		$this->load->view('welcome_message');
+		$this->load->view('encabezado/head');
+		$this->load->view('contenido/inicio');
+		$this->load->view('piedepagina/foother');
 	}
 	
 	public function buscar()
