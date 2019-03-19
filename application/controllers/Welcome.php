@@ -10,9 +10,9 @@ class Welcome extends CI_Controller {
 	 }
 	public function index()
 	{
-		$dt['bodega']= $this->modelos->BuscarBodega();
-		$dt['estado']= $this->modelos->BuscarEstado();
-		$this->load->view('welcome_message',$dt);
+		/*$dt['bodega']= $this->modelos->BuscarBodega();
+		$dt['estado']= $this->modelos->BuscarEstado();*/
+		$this->load->view('welcome_message');
 	}
 	
 	public function buscar()
