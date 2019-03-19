@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-
-class Welcome extends CI_Controller {
+//controlador para la gestiòn de las tareas
+class Tareas extends CI_Controller {
 
 	function __construct()
 	 {
