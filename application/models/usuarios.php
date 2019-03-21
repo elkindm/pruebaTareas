@@ -13,7 +13,10 @@ class Usuarios extends CI_Model
 
 	public function find($value='')
 	{
-		$query = $this->db->query("SELECT * FROM usurios ");
+		if ($value=="") {
+			$value="1=1";
+		}
+		$query = $this->db->query("SELECT * FROM usuario where $value");
 		return $query->result();
 	}
 }
