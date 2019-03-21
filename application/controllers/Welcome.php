@@ -21,6 +21,7 @@ class Welcome extends CI_Controller {
 	public function usuarios()
 	{
 		$dt['bodega']= $this->usuarios->find();
+		print_r($dt);
 		$this->load->view('encabezado/head');
 		$this->load->view('contenido/usuarios',$dt);
 		$this->load->view('piedepagina/foother');
