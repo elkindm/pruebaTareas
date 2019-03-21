@@ -24,11 +24,14 @@
 	     		processData: false
             })
                 .done(function(res){
+                	var res = JSON.parse(res);
                     swal("Administrador de Sistema", res, "success");
                 });
+                location.reload();
         });
     });
 </script>
+
 <div class="container">
 	<br>
 	<nav aria-label="breadcrumb">
@@ -63,6 +66,16 @@
 		      			<th>Perfil</th>
 		      		</tr>
 	      		</thead>
+	      		<tbody>
+	      			<?php foreach ($usuarios as $key ): ?>
+	      				<tr ondblclick="" title="Doble clic para editar" style="cursor: pointer;">
+	      					<td><?php echo $key->usuario; ?></td>
+	      					<td><?php echo $key->primerNombre." ".$key->primerApellido; ?></td>
+	      					<td><?php echo $key->estado; ?></td>
+	      					<td></td>
+	      				</tr>
+	      			<?php endforeach ?>
+	      		</tbody>
 	      		
 	      	</table>
 	      </div>
@@ -95,11 +108,11 @@
 	      	<label>Primer Nombre</label>
 	      	<input type="text" name="pnom" id="pnom" class="form-control" required="true">
 	      	<label>Segundo Nombre</label>
-	      	<input type="text" name="snom" id="snom" class="form-control" required="true">
+	      	<input type="text" name="snom" id="snom" class="form-control" >
 	      	<label>Primer Apellido</label>
 	      	<input type="text" name="pape" id="pape" class="form-control" required="true">
 	      	<label>Segundo Apellido</label>
-	      	<input type="text" name="sape" id="sape"  class="form-control" required="true">
+	      	<input type="text" name="sape" id="sape"  class="form-control" >
 	      	<label>Estado</label>
 	      	<select name="estado" id="estado" class="form-control" required="true">
 	      		<option value="">Seleccione...</option>
