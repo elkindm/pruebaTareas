@@ -1,3 +1,34 @@
+<script type="text/javascript">
+	function validaPass() {
+		
+		if ($("#pass").val()!=$("#cpass").val()) {
+			swal("Administrador de Sistema", "La contraseña no coinside!", "error");
+			$("#pass").val("");
+			$("#cpass").val("");
+		}
+	}
+	 $(function(){
+        $("#guardaUsuario").on("submit", function(e){
+            e.preventDefault();
+            var f = $(this);
+            var formData = new FormData(document.getElementById("guardaUsuario"));
+            formData.append("dato", "valor");
+            //formData.append(f.attr("name"), $(this)[0].files[0]);
+            $.ajax({
+                url: "<?php echo base_url().'Usuarios/guardaUsuario';?>",
+                type: "post",
+                dataType: "html",
+                data: formData,
+                cache: false,
+                contentType: false,
+	     		processData: false
+            })
+                .done(function(res){
+                    swal("Administrador de Sistema", res, "success");
+                });
+        });
+    });
+</script>
 <div class="container">
 	<br>
 	<nav aria-label="breadcrumb">
@@ -45,7 +76,7 @@
 	<div class="modal fade" id="crearProducto" tabindex="-1" role="dialog" aria-labelledby="crearProducto" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-    	<form id="guardaUsuario" method="post">
+    	<form id="guardaUsuario" method="post"  enctype="multipart/form-data">
       	  <div class="modal-header">
 	        <h5 class="modal-title" id="exampleModalLabel">Formulario de  Usuario</h5>
 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -54,23 +85,23 @@
 	      </div>
 	      <div class="modal-body">
 	      	<label>Usuario</label>
-	      	<input type="text" name="usuario" id="usuario" class="form-control">
+	      	<input type="text" name="usuario" id="usuario" class="form-control" required="true">
 	      	<label>Contraseña</label>
-	      	<input type="password" name="pass" id="pass" class="form-control">
+	      	<input type="password" name="pass" id="pass" class="form-control" required="true">
 	      	<label>Confirmar contraseña</label>
-	      	<input type="password" name="cpass" id="cpass" class="form-control">
+	      	<input type="password" name="cpass" id="cpass" class="form-control" required="true" onblur="validaPass()">
 	      	<label>Identificación</label>
-	      	<input type="number" name="identificacion" id="identificacion" class="form-control">
+	      	<input type="number" name="identificacion" id="identificacion" class="form-control" required="true">
 	      	<label>Primer Nombre</label>
-	      	<input type="text" name="pnom" id="pnom" class="form-control">
+	      	<input type="text" name="pnom" id="pnom" class="form-control" required="true">
 	      	<label>Segundo Nombre</label>
-	      	<input type="text" name="snom" id="snom" class="form-control">
+	      	<input type="text" name="snom" id="snom" class="form-control" required="true">
 	      	<label>Primer Apellido</label>
-	      	<input type="text" name="pape" id="pape" class="form-control">
+	      	<input type="text" name="pape" id="pape" class="form-control" required="true">
 	      	<label>Segundo Apellido</label>
-	      	<input type="text" name="sape" id="sape"  class="form-control">
+	      	<input type="text" name="sape" id="sape"  class="form-control" required="true">
 	      	<label>Estado</label>
-	      	<select name="estado" id="estado" class="form-control">
+	      	<select name="estado" id="estado" class="form-control" required="true">
 	      		<option value="">Seleccione...</option>
 	      		<option value="A">Activo</option>
 	      		<option value="I">Inactivo</option>
