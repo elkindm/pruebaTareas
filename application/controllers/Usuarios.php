@@ -7,12 +7,17 @@ class Usuarios extends CI_Controller {
 	 {
 		 parent::__construct();
 		 $this->load->model('modelos');
+		 $this->load->model('usuarios');
 	 }
 	public function index()
 	{
 		$dt['bodega']= $this->modelos->BuscarBodega();
 		$dt['estado']= $this->modelos->BuscarEstado();
 		$this->load->view('welcome_message',$dt);
+	}
+	public function guardaUsuario($value='')
+	{
+		return "respuesta afirmativa";
 	}
 }
 ?>
