@@ -6,8 +6,8 @@ class Welcome extends CI_Controller {
 	function __construct()
 	 {
 		 parent::__construct();
-		 $this->load->model('usuarios');
-		 $this->load->model('tareas');
+		 $this->load->model('usuario');
+		 $this->load->model('tarea');
 	 }
 	public function index()//login
 	{
@@ -20,8 +20,8 @@ class Welcome extends CI_Controller {
 
 	public function usuarios()
 	{
-		$dt['bodega']= $this->usuarios->find();
-		print_r($dt);
+		$dt['usuarios']= $this->usuario->find();
+		
 		$this->load->view('encabezado/head');
 		$this->load->view('contenido/usuarios',$dt);
 		$this->load->view('piedepagina/foother');
