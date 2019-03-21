@@ -8,12 +8,26 @@ class Welcome extends CI_Controller {
 		 parent::__construct();
 		 $this->load->model('modelos');
 	 }
-	public function index()
+	public function index()//login
 	{
 		/*$dt['bodega']= $this->modelos->BuscarBodega();
 		$dt['estado']= $this->modelos->BuscarEstado();*/
-		$this->load->view('encabezado/head');
+		//$this->load->view('encabezado/head');
 		$this->load->view('contenido/inicio');
+		$this->load->view('piedepagina/foother');
+	}
+
+	public function usuarios()
+	{
+		$this->load->view('encabezado/head');
+		$this->load->view('contenido/usuarios');
+		$this->load->view('piedepagina/foother');
+	}
+
+	public function tareas($value='')
+	{
+		$this->load->view('encabezado/head');
+		$this->load->view('contenido/tareas');
 		$this->load->view('piedepagina/foother');
 	}
 	
