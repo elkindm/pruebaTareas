@@ -22,6 +22,15 @@ class Usuarios extends CI_Controller {
 		$respuesta=array();
 		foreach ($res as $key) {
 			$respuesta['usuario']=$key->usuario;
+			$respuesta['clave']=$key->clave;
+			$respuesta['confirma']=$key->confirmaClave;
+			$respuesta['numeroIdentificacion']=$key->numeroIdentificacion;
+			$respuesta['primerNombre']=$key->primerNombre;
+			$respuesta['segundoNombre']=$key->segundoNombre;
+			$respuesta['primerApellido']=$key->primerApellido;
+			$respuesta['segundoApellido']=$key->segundoApellido;
+			$respuesta['estado']=$key->estado;
+			$respuesta['perfil']=$key->perfil;
 		}
 		echo json_encode($respuesta);
 	}
@@ -36,6 +45,7 @@ class Usuarios extends CI_Controller {
 		$pape = $this->input->post('pape'); 
 		$sape = $this->input->post('sape'); 
 		$estado = $this->input->post('estado');
+		$permiso = $this->input->post('permiso');
 		$feha=Date('Y-m-d'); 
 		//consultar si exite el usuario
 			$res= $this->usuario->find("usuario='$usuario'");
@@ -53,6 +63,7 @@ class Usuarios extends CI_Controller {
 				 'segundoApellido' => $sape,
 				 'estado' => $estado,
 				 'fechaEstado' => $feha,
+				 'perfil' => $permiso,
 				);
 				$respuesta = $this->modelos->actualiza($tabla, $data,$usuario);
 			}else{
@@ -69,11 +80,12 @@ class Usuarios extends CI_Controller {
 				 'segundoApellido' => $sape,
 				 'estado' => $estado,
 				 'fechaEstado' => $feha,
+				 'perfil' => $permiso,
 				);
 			
 			$respuesta = $this->usuario->guardar($tabla, $data );
 			}
-		echo json_encode($respuesta);
+		echo json_encode($respuesta." ".count($res));
 	}
 }
 ?>
