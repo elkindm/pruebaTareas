@@ -49,7 +49,7 @@ class Usuarios extends CI_Controller {
 		$feha=Date('Y-m-d'); 
 		//consultar si exite el usuario
 			$res= $this->usuario->find("usuario='$usuario'");
-			
+
 			if (count($res)>0) {
 				//actualiza
 				$tabla="usuario";
@@ -66,7 +66,7 @@ class Usuarios extends CI_Controller {
 				 'fechaEstado' => $feha,
 				 'perfil' => $permiso,
 				);
-				$respuesta = $this->modelos->actualiza($tabla, $data,$usuario);
+				$respuesta = $this->usuario->actualiza($tabla, $data,$usuario);
 			}else{
 				//crea registro
 				$tabla="usuario";
