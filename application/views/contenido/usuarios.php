@@ -117,7 +117,7 @@
 	      </div>
 	      <div class="modal-body">
 	      	<label>Usuario</label>
-	      	<input type="text" name="usuario" id="usuario" class="form-control" required="true">
+	      	<input type="text" name="usuario" id="usuario" class="form-control" value="<?=$musuario->max ?>" required="true">
 	      	<label>Contraseña</label>
 	      	<input type="password" name="pass" id="pass" class="form-control" required="true">
 	      	<label>Confirmar contraseña</label>
