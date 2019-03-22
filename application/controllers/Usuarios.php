@@ -49,6 +49,7 @@ class Usuarios extends CI_Controller {
 		$feha=Date('Y-m-d'); 
 		//consultar si exite el usuario
 			$res= $this->usuario->find("usuario='$usuario'");
+			
 			if (count($res)>0) {
 				//actualiza
 				$tabla="usuario";
