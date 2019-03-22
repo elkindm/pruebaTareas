@@ -69,15 +69,7 @@
 	</nav>
 	<div class="card text-center">
 	 
-	  <ul class="nav nav-tabs" role="tablist">
-		  <li class="nav-item">
-		    <a class="nav-link active" data-toggle="tab" href="#home">Usuarios</a>
-		  </li>
-		  <li class="nav-item">
-		    <a class="nav-link" data-toggle="tab" href="#menu1">Perfiles</a>
-		  </li>
-		  
-		</ul>
+	
 	  <div class="card-body">
 
 	  	<div class="tab-content">
@@ -92,15 +84,50 @@
 		      			<th>Nombres</th>
 		      			<th>Estado</th>
 		      			<th>Perfil</th>
+		      			<th></th>
 		      		</tr>
 	      		</thead>
 	      		<tbody>
-	      			<?php foreach ($usuarios as $key ): ?>
+	      			<?php foreach ($usuarios as $key ):
+	      				$estado="";
+	      				$perfil="";
+	      				switch ($key->estado) {
+	      					case 'A':
+	      						$estado="Activo";
+	      						break;
+	      					case 'I':
+	      						$estado="Inactivo";
+	      						break;
+	      					
+	      					default:
+	      						# code...
+	      						break;
+	      				}
+	      				switch ($key->perfil) {
+	      					case '1':
+	      						$perfil="Sistemas";
+	      						break;
+	      					case '2':
+	      						$perfil="Administrador";
+	      						break;
+	      					case '3':
+	      						$perfil="Operador";
+	      						break;
+	      					case '4':
+	      						$perfil="Auditor";
+	      						break;
+	      					
+	      					default:
+	      						# code...
+	      						break;
+	      				}
+	      			 ?>
 	      				<tr ondblclick="editar(<?php echo $key->usuario; ?>)" title="Doble clic para editar" style="cursor: pointer;">
 	      					<td><?php echo $key->usuario; ?></td>
 	      					<td><?php echo $key->primerNombre." ".$key->primerApellido; ?></td>
-	      					<td><?php echo $key->estado; ?></td>
-	      					<td><?php echo $key->perfil; ?></td>
+	      					<td><?php echo $estado; ?></td>
+	      					<td><?php echo $perfil; ?></td>
+	      					<td><button class="btn btn-danger" onclick="elimina()">Eliminar</button></td>
 	      					
 	      				</tr>
 	      			<?php endforeach ?>
