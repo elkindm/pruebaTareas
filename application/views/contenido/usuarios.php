@@ -27,7 +27,7 @@
                 	var res = JSON.parse(res);
                     swal("Administrador de Sistema", res, "success");
                 });
-                location.reload();
+                //location.reload();
         });
     });
 
@@ -41,7 +41,17 @@
 	        type: "POST",
 	        url: "<?php echo base_url().'Usuarios/editar';?>",
 	        success: function(data) {
-	            var result = JSON.parse(data);
+	            var data = JSON.parse(data);
+	            $('#usuario').val(data['usuario']);
+	            $('#pass').val(data['clave']);
+	            $('#cpass').val(data['confirma']);
+	            $('#identificacion').val(data['numeroIdentificacion']);
+	            $('#pnom').val(data['primerNombre']);
+	            $('#snom').val(data['segundoNombre']);
+	            $('#pape').val(data['primerApellido']);
+	            $('#sape').val(data['segundoApellido']);
+	            $('#estado').val(data['estado']);
+	            $('#permiso').val(data['perfil']);
 	            $('#crearProducto').modal({
 			        show: true
 			    });    
@@ -117,7 +127,7 @@
 	      </div>
 	      <div class="modal-body">
 	      	<label>Usuario</label>
-	      	<input type="text" name="usuario" id="usuario" class="form-control" value="<?=$musuario->max+1 ?>" required="true">
+	      	<input type="number" name="usuario" id="usuario" class="form-control"  value="<?=$musuario->max+1 ?>">
 	      	<label>Contraseña</label>
 	      	<input type="password" name="pass" id="pass" class="form-control" required="true">
 	      	<label>Confirmar contraseña</label>
