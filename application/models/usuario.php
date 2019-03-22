@@ -20,6 +20,15 @@ class Usuario extends CI_Model
 		return $query->result();
 	}
 
+	public function max($value='',$conditions='')
+	{
+		if ($conditions=="") {
+			$conditions="1=1";
+		}
+		$query = $this->db->query("SELECT max($value) as max FROM usuario where $conditions");
+		return $query->result();
+	}
+
 	public function guardar($table,$data)
 	{
 		try{
