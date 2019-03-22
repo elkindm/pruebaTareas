@@ -15,6 +15,16 @@ class Usuarios extends CI_Controller {
 		$dt['estado']= $this->modelos->BuscarEstado();
 		$this->load->view('welcome_message',$dt);
 	}
+	public function editar($value='')
+	{
+		$usuario = $this->input->post('id');
+		$res= $this->usuario->find("usuario='$usuario'");
+		$respuesta=array();
+		foreach ($res as $key) {
+			$respuesta['usuario']=$key->usuario;
+		}
+		echo json_encode($respuesta);
+	}
 	public function guardaUsuario($value='')
 	{
 		$usuario = $this->input->post('usuario'); 
