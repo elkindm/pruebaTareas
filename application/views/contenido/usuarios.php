@@ -90,7 +90,8 @@
 	      					<td><?php echo $key->usuario; ?></td>
 	      					<td><?php echo $key->primerNombre." ".$key->primerApellido; ?></td>
 	      					<td><?php echo $key->estado; ?></td>
-	      					<td></td>
+	      					<td><?php echo $key->perfil; ?></td>
+	      					
 	      				</tr>
 	      			<?php endforeach ?>
 	      		</tbody>
