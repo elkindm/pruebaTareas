@@ -8,6 +8,7 @@ class Welcome extends CI_Controller {
 		 parent::__construct();
 		 $this->load->model('usuario');
 		 $this->load->model('tarea');
+		 $this->load->model('perfil');
 	 }
 	public function index()//login
 	{
@@ -21,6 +22,7 @@ class Welcome extends CI_Controller {
 	public function usuarios()
 	{
 		$dt['usuarios']= $this->usuario->find();
+		$dt['perfil']= $this->perfil->find();
 		
 		$this->load->view('encabezado/head');
 		$this->load->view('contenido/usuarios',$dt);
