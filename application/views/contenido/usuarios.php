@@ -137,6 +137,14 @@
 	      		<option value="A">Activo</option>
 	      		<option value="I">Inactivo</option>
 	      	</select>
+	      	<label>Permisos</label>
+	      	<select name="permiso" id="permiso" class="form-control" required="true">
+	      		<option value="">Seleccione...</option>
+	      		<?php foreach ($perfil as $key ): ?>
+	      			<option value="<?= $key->id ?>"><?= $key->detalle ?></option>
+	      		<?php endforeach ?>
+	      		
+	      	</select>
 	      </div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
