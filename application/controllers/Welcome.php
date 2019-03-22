@@ -23,6 +23,8 @@ class Welcome extends CI_Controller {
 	{
 		$dt['usuarios']= $this->usuario->find();
 		$dt['perfil']= $this->perfil->find();
+		$max= $this->usuario->max('usuario');
+		$dt['musuario']=$max[0];
 		
 		$this->load->view('encabezado/head');
 		$this->load->view('contenido/usuarios',$dt);
