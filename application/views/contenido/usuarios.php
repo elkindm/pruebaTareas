@@ -30,6 +30,24 @@
                 location.reload();
         });
     });
+
+	 function editar(id) {
+	 	
+	 	
+	 	$.ajax({
+	        data: {
+	            id:id 	
+	        },
+	        type: "POST",
+	        url: "<?php echo base_url().'Usuarios/editar';?>",
+	        success: function(data) {
+	            var result = JSON.parse(data);
+	            $('#crearProducto').modal({
+			        show: true
+			    });    
+	        }
+        }); 
+	 }
 </script>
 
 <div class="container">
@@ -68,7 +86,7 @@
 	      		</thead>
 	      		<tbody>
 	      			<?php foreach ($usuarios as $key ): ?>
-	      				<tr ondblclick="" title="Doble clic para editar" style="cursor: pointer;">
+	      				<tr ondblclick="editar(<?php echo $key->usuario; ?>)" title="Doble clic para editar" style="cursor: pointer;">
 	      					<td><?php echo $key->usuario; ?></td>
 	      					<td><?php echo $key->primerNombre." ".$key->primerApellido; ?></td>
 	      					<td><?php echo $key->estado; ?></td>
