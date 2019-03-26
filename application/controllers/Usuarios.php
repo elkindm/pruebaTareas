@@ -86,7 +86,82 @@ class Usuarios extends CI_Controller {
 			
 			$respuesta = $this->usuario->guardar($tabla, $data );
 			}
-		echo json_encode($respuesta." ".count($res));
+		echo json_encode($respuesta);
+	}
+	public function elimina($value='')
+	{
+		$id = $this->input->post('id'); 
+		$respuesta = $this->usuario->elimina($id);
+		echo json_encode($respuesta);
+	}
+	public function buscar($value='')
+	{
+		$dato = $this->input->post('dato');
+		if ($dato=="") {
+			$res= $this->usuario->find();
+		}else{
+			$res= $this->usuario->find("usuario like '%$dato%' or primerNombre like '%$dato%' or primerApellido like '%$dato%' or estado like '%$dato%' or perfil like '%$dato%' ");
+		}
+		
+		$respuesta='';
+		$dt['tabla']="<table class='table table-bordered '>
+				<thead class='thead-dark'>
+					<tr>
+						<th>Usuario</th>
+						<th>Nombres</th>
+						<th>Estado</th>
+						<th>Perfil</th>
+						<th><button type='button' class='btn btn-primary' data-toggle='modal' data-target='#crearProducto'><b>+</b> Agregar Usuario</button></th>
+						
+					</tr>
+				</thead>
+				<tbody>";
+		foreach ($res as $key) {
+			$estado="";
+
+		      				$perfils="";
+		      				switch ($key->estado) {
+		      					case 'A':
+		      						$estado="Activo";
+		      						break;
+		      					case 'I':
+		      						$estado="Inactivo";
+		      						break;
+		      					
+		      					default:
+		      						# code...
+		      						break;
+		      				}
+		      				switch ($key->perfil) {
+		      					case '1':
+		      						$perfils="Sistemas";
+		      						break;
+		      					case '2':
+		      						$perfils="Administrador";
+		      						break;
+		      					case '3':
+		      						$perfils="Operador";
+		      						break;
+		      					case '4':
+		      						$perfils="Auditor";
+		      						break;
+		      					
+		      					default:
+		      						# code...
+		      						break;
+		      				}
+			$dt['tabla'].="<tr ondblclick='editar(".$key->usuario.")' title='Doble clic para editar' style='cursor: pointer;'>";
+		      		$dt['tabla'].="<td>{$key->usuario}</td>";
+		      		$dt['tabla'].="<td>".$key->primerNombre." ".$key->primerApellido."</td>";
+		      		$dt['tabla'].="<td> ".$key->estado."</td>";
+		      		$dt['tabla'].="<td>". $key->perfil."</td>";
+		      		$dt['tabla'].="<td><button class='btn btn-danger' onclick='elimina($key->usuario>)'>Eliminar</button></td>";
+		      					
+		    $dt['tabla'].="</tr>";
+			//$respuesta.="<tr>";
+		}
+		$dt['tabla'].="<tbody></table>";
+		echo json_encode($dt);
 	}
 }
 ?>
