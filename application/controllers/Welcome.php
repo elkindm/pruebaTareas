@@ -2,6 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 //controlador que gestiona las plantillas de la aplicaciòn
 class Welcome extends CI_Controller {
+	
 
 	function __construct()
 	 {
@@ -9,6 +10,7 @@ class Welcome extends CI_Controller {
 		 $this->load->model('usuario');
 		 $this->load->model('tarea');
 		 $this->load->model('perfil');
+		 
 	 }
 	public function index()//login
 	{
@@ -21,21 +23,65 @@ class Welcome extends CI_Controller {
 
 	public function usuarios()
 	{
-		$dt['usuarios']= $this->usuario->find();
-		$dt['perfil']= $this->perfil->find();
+		$dt['session']=($this->session);
 		$max= $this->usuario->max('usuario');
 		$dt['musuario']=$max[0];
+		//$dt['usuarios']= $this->usuario->find();
+		$dt['perfil']= $this->perfil->find();
 		
+		if ($this->session->userData('perfil')!="OPERADOR") {
+			$dt['error']="";
+			
+		}else{
+			$dt['error']="El usuario no tiene los permisos para esta vista";
+		}
 		$this->load->view('encabezado/head');
 		$this->load->view('contenido/usuarios',$dt);
 		$this->load->view('piedepagina/foother');
 	}
 
+	public function home($value='')
+	{
+		
+		$usuario = $this->input->post('usuario'); 
+		$pass = $this->input->post('pass'); 
+		$usuario= $this->usuario->find("usuario = '$usuario' and clave='$pass'");
+		$nombre="";
+		if (count($usuario)>0) {
+
+			$nombre=$usuario[0]->primerNombre;
+			$perfil=$usuario[0]->perfil;
+			$data=array(
+				'usuario'=>$usuario,
+				'nombre'=>$nombre,
+				'perfil'=>$perfil,
+				'login'=>true
+			);
+			$this->session->set_userData($data);
+			//echo $this->session->userData('nombre');
+			$respuesta['ruta']=base_url()."Welcome/tareas";
+			echo json_encode($respuesta);
+			/*$respuesta['ruta']="<?php echo base_url().'Welcome/tareas' ?>";
+			/*$respuesta['text']=" ¡Bienbenidos al sistema!";
+			$respuesta['icon']="success";*/
+		}else{
+			$respuesta['ruta']="";
+			$respuesta['text']="Error: ¡usuario y contraseña incorrecta!";
+			$respuesta['icon']="error";
+			echo json_encode($respuesta);
+			
+		}
+		
+	}
+
 	public function tareas($value='')
 	{
+		$dt['usuarios']= $this->usuario->find();
+		$dt['session']=($this->session);
 		$this->load->view('encabezado/head');
-		$this->load->view('contenido/tareas');
-		$this->load->view('piedepagina/foother');
+			$this->load->view('contenido/tareas',$dt);
+			$this->load->view('piedepagina/foother');
+		
 	}
 	
 	public function buscar()
