@@ -23,13 +23,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav">
       <li class="nav-item active">
-        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="<?php echo base_url().'Welcome/' ?>">Home <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Usuarios</a>
+        <a class="nav-link" href="<?php echo base_url().'Welcome/usuarios' ?>">Usuarios</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="#">Tareas</a>
+        <a class="nav-link" href="<?php echo base_url().'Welcome/tareas' ?>">Tareas</a>
       </li>
      
     </ul>
