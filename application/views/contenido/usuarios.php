@@ -1,4 +1,89 @@
 <script type="text/javascript">
+	var result;
+	var resultbk;
+	 window.onload=function(){
+		$.ajax({
+                data: {
+                   dato:'' 	
+                },
+                type: "POST",
+                url: "<?php echo base_url().'Usuarios/buscar';?>",
+                success: function(data) {
+                	result = JSON.parse(data);
+                	//resultbk=JSON.parse(data);
+                	
+                	//carga();
+                	$("#cuerpo").html(result['tabla']);
+                    //$("#valor").val(result['valor']);    
+                                             		
+                }
+                            
+             }); 
+	}
+	function carga(){
+		let cuerpo= document.getElementById("cuerpo");
+
+		while(cuerpo.rows.length > 0){
+			cuerpo.deleteRow(0);
+		}
+                	var estado='';
+                	var perfils='';
+                	result.forEach(dt=>{
+                		let fila=cuerpo.insertRow(cuerpo.rows.length);
+                		if (dt.estado='A') {
+                			estado='Activo';
+                		}else{
+                			estado='Inactivo';
+                		}
+                		switch (dt.perfil){
+                			case '1':
+		      					perfils="Sistemas";
+		      					break;
+		      				case '2':
+		      					perfils="Administrador";
+		      					break;
+		      				case '3':
+		      					perfils="Operador";
+		      					break;
+		      				case '4':
+		      					perfils="Auditor";
+		      					break;
+		      					
+                		}
+                		fila.insertCell(0).innerHTML=dt.usuario;
+                		fila.insertCell(1).innerHTML=dt.primerNombre+' '+dt.primerApellido;
+                		fila.insertCell(2).innerHTML=estado;
+                		fila.insertCell(3).innerHTML=perfils;
+                		fila.insertCell(4).innerHTML="<button type='button' class='btn btn-danger' onclick='elimina("+dt.usuario+")'>Eliminar</button>";
+                	})
+	}
+	function buscard(){
+		var dato=$("#buscar").val();
+		$.ajax({
+                data: {
+                    dato:dato	
+                },
+                type: "POST",
+                url: "<?php echo base_url().'Usuarios/buscar';?>",
+                success: function(data) {
+                	result = JSON.parse(data);
+                	//resultbk=JSON.parse(data);
+                	
+                	//carga();
+                	$("#cuerpo").html(result['tabla']);
+                    //$("#valor").val(result['valor']);    
+                                             		
+                }
+                            
+             }); 
+		/*result=resultbk;
+		result=result.filter(dts=>{
+			//return dts.primerNombre.toLowerCase().indexOf(dato) > -1;
+			return dts.primerNombre.toLowerCase().indexOf(dato) || dts.perfil.toLowerCase().indexOf(dato) > -1;
+		});
+		carga();
+		console.log(result);*/
+	}
 	function validaPass() {
 		
 		if ($("#pass").val()!=$("#cpass").val()) {
@@ -25,15 +110,63 @@
             })
                 .done(function(res){
                 	var res = JSON.parse(res);
-                    swal("Administrador de Sistema", res, "success");
+                	 $('#usuario').val('');
+		            $('#pass').val('');
+		            $('#cpass').val('');
+		            $('#identificacion').val('');
+		            $('#pnom').val('');
+		            $('#snom').val('');
+		            $('#pape').val('');
+		            $('#sape').val('');
+		            $('#estado').val('');
+		            $('#permiso').val('');
+		              
+                    mensage("Administrador de Sistema", res, "success");
                 });
                 //location.reload();
         });
     });
 
+	function elimina(id) {
+		swal({
+		  title: "¿Está seguro de eliminar el usuario?",
+		  text: '',
+		  icon: 'warning',
+		  buttons: true,
+		  dangerMode: true,
+		})
+		.then((willDelete) => {
+		  if (willDelete) {
+		    $.ajax({
+		        data: {
+		            id:id 	
+		        },
+		        type: "POST",
+		        url: "<?php echo base_url().'Usuarios/elimina';?>",
+		        success: function(data) {
+		            var data = JSON.parse(data);
+		           mensage('Administrador',data,'success');
+		        }
+	        }); 
+		  } 
+		});
+	}
+	function mensage(title,text,icon) {
+		swal({
+		  title: title,
+		  text: text,
+		  icon: icon,
+		  buttons: true,
+		  //dangerMode: true,
+		})
+		.then((willDelete) => {
+		  if (willDelete) {
+		    location.reload();
+		  } 
+		});
+	}
+
 	 function editar(id) {
-	 	
-	 	
 	 	$.ajax({
 	        data: {
 	            id:id 	
@@ -58,8 +191,7 @@
 	        }
         }); 
 	 }
-</script>
-
+</script> 
 <div class="container">
 	<br>
 	<nav aria-label="breadcrumb">
@@ -71,74 +203,88 @@
 	 
 	
 	  <div class="card-body">
+	  	<?php if ($error==""){ ?>
+		  	<div class="tab-content">
 
-	  	<div class="tab-content">
-
-	      <div class="tab-pane container active" id="home">
-	      	<div align="left"><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#crearProducto"><b>+</b> Agregar Usuario</button></div>
-	      	<br>
-	      	<table class="table table-striped ">
-	      		<thead class="thead-dark">
-	      			<tr>
-		      			<th>Usuario</th>
-		      			<th>Nombres</th>
-		      			<th>Estado</th>
-		      			<th>Perfil</th>
-		      			<th></th>
-		      		</tr>
-	      		</thead>
-	      		<tbody>
-	      			<?php foreach ($usuarios as $key ):
-	      				$estado="";
-	      				$perfil="";
-	      				switch ($key->estado) {
-	      					case 'A':
-	      						$estado="Activo";
-	      						break;
-	      					case 'I':
-	      						$estado="Inactivo";
-	      						break;
-	      					
-	      					default:
-	      						# code...
-	      						break;
-	      				}
-	      				switch ($key->perfil) {
-	      					case '1':
-	      						$perfil="Sistemas";
-	      						break;
-	      					case '2':
-	      						$perfil="Administrador";
-	      						break;
-	      					case '3':
-	      						$perfil="Operador";
-	      						break;
-	      					case '4':
-	      						$perfil="Auditor";
-	      						break;
-	      					
-	      					default:
-	      						# code...
-	      						break;
-	      				}
-	      			 ?>
-	      				<tr ondblclick="editar(<?php echo $key->usuario; ?>)" title="Doble clic para editar" style="cursor: pointer;">
-	      					<td><?php echo $key->usuario; ?></td>
-	      					<td><?php echo $key->primerNombre." ".$key->primerApellido; ?></td>
-	      					<td><?php echo $estado; ?></td>
-	      					<td><?php echo $perfil; ?></td>
-	      					<td><button class="btn btn-danger" onclick="elimina()">Eliminar</button></td>
-	      					
-	      				</tr>
-	      			<?php endforeach ?>
-	      		</tbody>
-	      		
-	      	</table>
-	      </div>
-		  <div class="tab-pane container fade" id="menu1">Perfiles...
-		  </div>
-		  
-		</div>
+		      <div class="tab-pane container active" id="home">
+		      	
+		      	<form>
+		      		<div align="left">
+			      		<input type="shearch" name="buscar" id="buscar" class="form-control" placeholder="Buscar por Nombres y Apellido" onkeyup="buscard()">
+			      	</div>
+			      	<br>
+			      	<div id="cuerpo"></div>
+			      	<!--<table class="table table-striped ">
+			      		<thead class="thead-dark">
+			      			<tr>
+				      			<th>Usuario</th>
+				      			<th>Nombres</th>
+				      			<th>Estado</th>
+				      			<th>Perfil</th>
+				      			<th>
+				      				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#crearProducto"><b>+</b> Agregar Usuario</button>
+				      			</th>
+				      		</tr>
+			      		</thead>
+			      		<tbody >
+			      			<div id="cuerpo" ></div>
+			      			<?php /*foreach ($usuarios as $key ):
+			      				/*$estado="";
+			      				$perfils="";
+			      				switch ($key->estado) {
+			      					case 'A':
+			      						$estado="Activo";
+			      						break;
+			      					case 'I':
+			      						$estado="Inactivo";
+			      						break;
+			      					
+			      					default:
+			      						# code...
+			      						break;
+			      				}
+			      				switch ($key->perfil) {
+			      					case '1':
+			      						$perfils="Sistemas";
+			      						break;
+			      					case '2':
+			      						$perfils="Administrador";
+			      						break;
+			      					case '3':
+			      						$perfils="Operador";
+			      						break;
+			      					case '4':
+			      						$perfils="Auditor";
+			      						break;
+			      					
+			      					default:
+			      						# code...
+			      						break;
+			      				}
+			      			 ?>
+			      				<tr ondblclick="editar(<?php echo $key->usuario; ?>)" title="Doble clic para editar" style="cursor: pointer;">
+			      					<td><?php echo $key->usuario; ?></td>
+			      					<td><?php echo $key->primerNombre." ".$key->primerApellido; ?></td>
+			      					<td><?php echo $estado; ?></td>
+			      					<td><?php echo $perfils; ?></td>
+			      					<td><button class="btn btn-danger" onclick="elimina(<?php echo $key->usuario; ?>)">Eliminar</button></td>
+			      					
+			      				</tr>
+			      			<?php endforeach*/ ?>
+			      		</tbody>
+			      		
+			      	</table>-->
+		      	</form>
+		      </div>
+			  <div class="tab-pane container fade" id="menu1">Perfiles...
+			  </div>
+			  
+			</div>
+		<?php }else{
+			echo "<div class='alert alert-warning' role='alert'>
+ 					 $error
+				</div>"	;
+		} ?>
 	  </div>
 	</div>
 
@@ -172,14 +318,16 @@
 	      	<label>Estado</label>
 	      	<select name="estado" id="estado" class="form-control" required="true">
 	      		<option value="">Seleccione...</option>
-	      		<option value="A">Activo</option>
-	      		<option value="I">Inactivo</option>
+	      		<option value="Activo">Activo</option>
+	      		<option value="Inactivo">Inactivo</option>
 	      	</select>
 	      	<label>Permisos</label>
+	      
+
 	      	<select name="permiso" id="permiso" class="form-control" required="true">
 	      		<option value="">Seleccione...</option>
 	      		<?php foreach ($perfil as $key ): ?>
-	      			<option value="<?= $key->id ?>"><?= $key->detalle ?></option>
+	      			<option value="<?= $key->detalle ?>"><?= $key->detalle ?></option>
 	      		<?php endforeach ?>
 	      		
 	      	</select>
