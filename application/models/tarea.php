@@ -15,7 +15,7 @@ class Tarea extends CI_Model
 		if ($value=="") {
 			$value="1=1";
 		}
-		$query = $this->db->query("SELECT * FROM usuario where $value");
+		$query = $this->db->query("SELECT * FROM tarea where $value");
 		return $query->result();
 	}
 
@@ -31,6 +31,32 @@ class Tarea extends CI_Model
 			return "Error: $e";
 		}
 		
+	}
+	public function actualiza($table,$data,$id)
+	{
+		
+		try{
+			$this->db->where('id', $id);
+			if ($this->db->update($table, $data)) {
+				return "Tarea Actualizado";
+			}else{
+				return "Error al Actualiza";
+			}
+		}catch(Exception $e){
+			return "Error: $e";
+		}
+        //return ;
+	}
+	public function elimina($id='')
+	{
+		try {
+			if ($this->db->delete('tarea', array('id' => $id))){
+				return "Tarea Eliminada";
+			}
+		} catch (Exception $e) {
+			return "Error: $e";
+		}
+		 
 	}
 }
 ?>
