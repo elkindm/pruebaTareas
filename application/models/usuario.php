@@ -55,7 +55,18 @@ class Usuario extends CI_Model
 		}catch(Exception $e){
 			return "Error: $e";
 		}
-        return ;
+        //return ;
+	}
+	public function elimina($id='')
+	{
+		try {
+			if ($this->db->delete('usuario', array('usuario' => $id))){
+				return "Usuario Eliminado";
+			}
+		} catch (Exception $e) {
+			return "Error: $e";
+		}
+		 
 	}
 }
 ?>
